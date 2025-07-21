@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { watchlist } from "../data/data.js";
 import { Tooltip, Grow } from "@mui/material";
 import {
@@ -7,8 +7,36 @@ import {
   KeyboardArrowUp,
   MoreHoriz,
 } from "@mui/icons-material";
+import GeneralContext from "./GeneralContext";
+import { PieChart } from "./PieChart";
 
 const WatchList = () => {
+  const data = {
+    labels: watchlist.map((stock) => stock.name),
+    datasets: [
+      {
+        label: "Stock Price",
+        data: watchlist.map((stock) => stock.price),
+        backgroundColor: [
+          "rgba(75, 192, 192, 0.5)",
+          "rgba(153, 102, 255, 0.5)",
+          "rgba(255, 159, 64, 0.5)",
+          "rgba(255, 99, 132, 0.5)",
+          "rgba(54, 162, 235, 0.5)",
+          "rgba(255, 206, 86, 0.5)",
+        ],
+        borderColor: [
+          "rgba(75, 192, 192, 0.5)",
+          "rgba(153, 102, 255, 0.5)",
+          "rgba(255, 159, 64, 0.5)",
+          "rgba(255, 99, 132, 0.5)",
+          "rgba(54, 162, 235, 0.5)",
+          "rgba(255, 206, 86, 0.5)",
+        ],
+        borderWidth: 1,
+      },
+    ],
+  };
   return (
     <div className="watchlist-container">
       <div className="search-container">
@@ -21,12 +49,12 @@ const WatchList = () => {
         />
         <span className="counts"> {watchlist.length} / 50</span>
       </div>
-
       <ul className="list">
         {watchlist.map((stock, index) => {
           return <WatchListItem stock={stock} key={index} />;
         })}
       </ul>
+      <PieChart data={data} />;
     </div>
   );
 };
@@ -60,6 +88,12 @@ const WatchListItem = ({ stock }) => {
 };
 
 const WatchListActions = ({ uid }) => {
+  const generalContext = useContext(GeneralContext);
+
+  const handleBuyClick = () => {
+    generalContext.openBuyWindow(uid);
+  };
+
   return (
     <span className="actions">
       <span>
@@ -68,6 +102,7 @@ const WatchListActions = ({ uid }) => {
           placement="top"
           arrow
           TransitionComponent={Grow}
+          onClick={handleBuyClick}
         >
           <button className="buy">Buy</button>
         </Tooltip>
