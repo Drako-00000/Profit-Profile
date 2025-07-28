@@ -45,3 +45,20 @@ code {
   margin-right: 25px;
   font-size: 17px;
 }
+
+#account_btn {
+  background-color: transparent;
+  text-align: left;
+  border: 1px solid rgb(175, 172, 172);
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 90%;
+  margin-left: 23px;
+}
+
+#account_btn:hover{
+  border-width: 2px;
+  border-color: rgb(12, 144, 180);
+}
