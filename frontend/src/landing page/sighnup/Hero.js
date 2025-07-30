@@ -38,6 +38,7 @@ function HeroSignup() {
             <button
               className="btn btn-primary mt-4 fs-5"
               style={{ width: "30%", height: "40%", margin: "0 auto" }}
+              
             >
               Get OTP
             </button>
