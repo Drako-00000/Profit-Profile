@@ -1,19 +1,30 @@
-import {React, useEffect, useState} from "react";
+import { React, useEffect, useState } from "react";
 import axios from "axios";
 import { VerticalGraph } from "./VerticalGraph";
 
 const Holdings = () => {
   const [holdings, setHoldings] = useState([]);
   useEffect(() => {
-    axios.get('http://localhost:3001/allholdings').then((response) => {
-      setHoldings(response.data);
-    });
-  }, []);
+    axios
+      .get("http://localhost:3001/allholdings")
+      .then((response) => {
+        const data = response.data?.data;
 
+        if (Array.isArray(data)) {
+          setHoldings(data);
+        } else {
+          console.error("Invalid response format", response.data);
+          setHoldings([]); // fallback to empty
+        }
+      })
+      .catch((error) => {
+        console.error("API Error:", error);
+      });
+  }, []);
 
   const labels = holdings.map((sub_array) => sub_array["name"]);
 
-  const data ={
+  const data = {
     labels,
     datasets: [
       {
@@ -21,9 +32,9 @@ const Holdings = () => {
         data: holdings.map((stock) => stock.price),
         backgroundColor: "rgba(75, 192, 192, 0.5)",
         borderColor: "rgba(75, 192, 192, 1)",
-      }
-    ]
-  }
+      },
+    ],
+  };
   return (
     <>
       <h3 className="title">Holdings ({holdings.length})</h3>
@@ -84,7 +95,7 @@ const Holdings = () => {
         </div>
       </div>
 
-      <VerticalGraph data={data}/>
+      <VerticalGraph data={data} />
     </>
   );
 };
