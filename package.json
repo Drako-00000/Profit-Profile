@@ -3,5 +3,15 @@
     "@types/passport-local": "^1.0.38",
     "passport": "^0.7.0",
     "session": "^0.1.0"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.0",
+    "cross-env": "^10.0.0"
+  },
+  "scripts": {
+    "start:frontend": "cross-env PORT=3000 npm --prefix frontend start",
+    "start:dashboard": "cross-env PORT=3001 npm --prefix dashboard start",
+    "start:backend": "npm --prefix backend run dev",
+    "start:all": "concurrently --names frontend,dashboard,backend -c blue,green,yellow \"npm run start:frontend\" \"npm run start:dashboard\" \"npm run start:backend\""
   }
 }
